@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Visualization</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .buttons {
+            margin: 20px;
+        }
+        .figure-image {
+            width: 50px;
+            height: 50px;
+            background-size: cover;
+            margin: 5px;
+            display: inline-block;
+        }
+        .figures-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive Patient Visualization</h1>
+    <div class="buttons">
+        <label for="ethnicity">Ethnicity:</label>
+        <select id="ethnicity">
+            <option value="All">All</option>
+            <option value="White">White</option>
+            <option value="Black">Black</option>
+            <option value="Asian">Asian</option>
+            <option value="American Indian / Alaska Native">American Indian / Alaska Native</option>
+            <option value="Hispanic OR Latino">Hispanic OR Latino</option>
+        </select>
+
+        <label for="severity">Severity:</label>
+        <select id="severity">
+            <option value="All">All</option>
+            <option value="<88"><88</option>
+            <option value="88-94">88-94</option>
+            <option value=">=94">>=94</option>
+        </select>
+
+        <button onclick="updateVisualization()">Filter</button>
+    </div>
+
+    <div class="figures-container" id="figures-container"></div>
+
+    <script>
+        function updateVisualization() {
+            const ethnicity = document.getElementById('ethnicity').value;
+            const severity = document.getElementById('severity').value;
+
+            // Send request to Flask API
+            fetch('/filter', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ethnicity, severity })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const count = data.count;
+                const container = document.getElementById('figures-container');
+
+                // Clear existing figures
+                container.innerHTML = '';
+
+                // Create image-based figures based on count
+                for (let i = 0; i < count; i++) {
+                    const figure = document.createElement('div');
+                    figure.classList.add('figure-image');
+                    figure.style.backgroundImage = "url('/static/imgs/hypoximia.png')";
+                    container.appendChild(figure);
+                }
+            })
+            .catch(err => console.error('Error:', err));
+        }
+    </script>
+</body>
+</html>
