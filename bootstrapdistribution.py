@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Load the dataset
-file_path = "bold_dataset.csv"  # Replace with the correct file path
+file_path = "bold_dataset.csv"
 data = pd.read_csv(file_path)
 
 # Categorize SpO2 and SaO2 into ranges
