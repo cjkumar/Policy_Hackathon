@@ -5,7 +5,7 @@ import seaborn as sns
 
 def plot_kde_with_fills(data_folder, output_file="all_distributions_kde_filled.png"):
     """
-    Plot KDEs for all bootstrap CSV files in a folder with filled curves and the legend moved to the side.
+    Plot KDEs for all bootstrap CSV files in a folder with filled curves
 
     Args:
         data_folder (str): Path to the folder containing bootstrap CSV files.
